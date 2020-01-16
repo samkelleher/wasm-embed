@@ -4,7 +4,7 @@ const fsPromises = fs.promises;
 
 async function build() {
     const path = "./zip.zip";
-    const pathOutput = "./zipEmbed.ts";
+    const pathOutput = "./assembly/embed.ts";
   let data;
   try {
     data = await fsPromises.readFile(path);
