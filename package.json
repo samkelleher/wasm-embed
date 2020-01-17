@@ -2,8 +2,9 @@
   "name": "wasm-embed",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "UNLICENCED",
   "devDependencies": {
+    "@cloudflare/wrangler": "^1.6.0",
     "@types/node": "^13.1.7",
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
@@ -14,6 +15,7 @@
     "typescript": "^3.7.4"
   },
   "scripts": {
+    "wrangler": "wrangler",
     "lint": "eslint",
     "ts": "tsc",
     "test": "tsc readFile.ts && node readFile.js",
