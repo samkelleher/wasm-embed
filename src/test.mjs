@@ -1,7 +1,7 @@
 import * as fs from "fs";
 
 const fsPromises = fs.promises;
-const path = "../build/optimized.wasm";
+const path = "./build/optimized.wasm";
 
 const getInstance = async () => {
   let data;
@@ -30,7 +30,7 @@ const writeFile = async (data) => {
   const instance = await getInstance();
   console.log(instance.getSize());
   try {
-    await fsPromises.writeFile("./zip-E2E.zip", instance.zip);
+    await fsPromises.writeFile("./testOutput/zip-E2E.zip", instance.zip);
   } catch (error) {
     console.error(`Failed to write at "${path}"`);
     console.error(error);
