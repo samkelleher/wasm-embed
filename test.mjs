@@ -1,12 +1,11 @@
 import * as fs from "fs";
 
 const fsPromises = fs.promises;
-
 const path = "./build/optimized.wasm";
 // const path = "./build/untouched.wasm";
 // const path = "./build/optimized.wat";
 
-async function run() {
+const getInstance = async () => {
   let data;
   try {
     data = await fsPromises.readFile(path);
@@ -16,15 +15,33 @@ async function run() {
     return;
   }
 
-  const lib = await WebAssembly.instantiate(new Uint8Array(data), {}).then(res => res.instance.exports);
+  const compiled = new WebAssembly.Module(new Uint8Array(data));
 
-  return lib;
+  const imports = {
+    env: {
+      abort(_msg, _file, line, column) {
+        console.error("abort called at index.ts:" + line + ":" + column);
+      }
+    }
+  };
+
+  return new WebAssembly.Instance(compiled, imports).exports;
 }
 
-run()
-  .then((file) => {
+const writeFile = async (data) => {
+  const instance = await getInstance();
+  console.log(instance.getSize());
+  try {
+    await fsPromises.writeFile("./zip-E2E.zip", instance.zip);
+  } catch (error) {
+    console.error(`Failed to write at "${path}"`);
+    console.error(error);
+  }
+};
+
+writeFile()
+  .then(() => {
     console.log("Finished");
-    console.log(file);
   })
   .catch((err) => {
     console.log(err);
