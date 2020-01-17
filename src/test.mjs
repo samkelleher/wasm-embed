@@ -28,12 +28,10 @@ const getInstance = async () => {
 
 const writeFile = async (data) => {
   const instance = await getInstance();
-  console.log(instance.getSize());
-  console.log(instance);
   try {
-    await fsPromises.writeFile("./testOutput/zip-E2E.zip", new Uint8Array(instance.getZip()));
+    await fsPromises.writeFile("./testOutput/zip-output.zip", new Uint8Array(instance.getZip()));
+    await fsPromises.writeFile("./testOutput/kitten-output.jpeg", new Uint8Array(instance.getKitten()));
   } catch (error) {
-    console.error(`Failed to write at "${path}"`);
     console.error(error);
   }
 };

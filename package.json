@@ -1,7 +1,7 @@
 {
   "name": "wasm-embed",
   "version": "1.0.0",
-  "main": "worker.js",
+  "main": "src/worker.js",
   "license": "UNLICENCED",
   "devDependencies": {
     "@cloudflare/wrangler": "^1.6.0",
@@ -9,20 +9,19 @@
     "@typescript-eslint/eslint-plugin": "^2.14.0",
     "@typescript-eslint/parser": "^2.14.0",
     "assemblyscript": "^0.8.1",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
+    "request": "^2.88.0",
     "typescript": "^3.7.4"
   },
   "scripts": {
     "wrangler": "wrangler",
     "lint": "eslint",
-    "ts": "tsc",
-    "build": "node ./src/build.mjs && yarn asbuild",
-    "asinit": "asinit",
+    "deploy": "node -r ./node_modules/dotenv/config.js ./src/deploy.mjs",
+    "build": "node ./src/build.mjs && yarn asbuild:optimized",
     "test": "node ./src/test.mjs",
-    "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
-    "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
-    "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized"
+    "asbuild:optimized": "asc assembly/index.ts -b build/embed.wasm --validate --optimize"
   }
 }
