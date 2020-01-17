@@ -4,21 +4,42 @@
   "main": "src/worker.js",
   "license": "UNLICENCED",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.14.0",
-    "@typescript-eslint/parser": "^2.14.0",
     "assemblyscript": "^0.8.1",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.19.1",
+    "jest": "^24.9.0",
     "request": "^2.88.0",
     "typescript": "^3.7.4"
   },
   "scripts": {
-    "lint": "eslint",
+    "lint": "eslint --ext=.js,.mjs .",
     "deploy": "node -r ./node_modules/dotenv/config.js ./src/deploy.mjs",
     "build": "node ./src/build.mjs && yarn asbuild:optimized",
-    "test": "node ./src/test.mjs",
+    "run": "node ./src/run.mjs",
+    "test": "jest",
     "asbuild:optimized": "asc assembly/index.ts -b build/embed.wasm --validate --optimize"
+  },
+  "eslintIgnore": [
+    "assembly/*",
+    "build/*",
+    "node_modules/*"
+  ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.mjs"
+    ],
+    "testMatch": [
+      "**/?(*.)test.mjs"
+    ],
+    "coverageDirectory": "reports/coverage",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "mjs",
+      "json"
+    ]
   }
 }
