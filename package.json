@@ -1,7 +1,7 @@
 {
   "name": "wasm-embed",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "worker.js",
   "license": "UNLICENCED",
   "devDependencies": {
     "@cloudflare/wrangler": "^1.6.0",
@@ -18,10 +18,10 @@
     "wrangler": "wrangler",
     "lint": "eslint",
     "ts": "tsc",
-    "test": "tsc readFile.ts && node readFile.js",
+    "build": "node build.mjs && yarn asbuild",
     "asinit": "asinit",
     "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
-    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
+    "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized"
   }
 }

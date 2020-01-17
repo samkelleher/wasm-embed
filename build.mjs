@@ -1,25 +1,35 @@
-import fs from "fs";
+import * as fs from "fs";
 
 const fsPromises = fs.promises;
 
-async function build() {
-    const path = "./zip.zip";
-    let data;
-    try {
-        data = await fsPromises.readFile(path);
-    } catch (error) {
-        console.error(`Failed to read report at "${path}"`);
-        console.error(error);
-        return;
-    }
+const path = "./zip.zip";
+const pathOutput = "./assembly/embed.ts";
 
-    console.log(data.toString());
+async function build() {
+  let data;
+  try {
+    data = await fsPromises.readFile(path);
+  } catch (error) {
+    console.error(`Failed to read at "${path}"`);
+    console.error(error);
+    return;
+  }
+
+  const decodedString = new Uint8Array(data).toString();
+  const template = `export const zip: u8[] = [${decodedString}];`;
+
+  try {
+    data = await fsPromises.writeFile(pathOutput, template);
+  } catch (error) {
+    console.error(`Failed to write at "${path}"`);
+    console.error(error);
+  }
 }
 
 build()
-    .then(() => {
-        console.log("Finished");
-    })
-    .catch(err => {
-        console.log(err);
-    })
+  .then(() => {
+    console.log(`Files embedded in ${pathOutput}`);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
