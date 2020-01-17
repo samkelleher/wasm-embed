@@ -2,7 +2,7 @@ import * as fs from "fs";
 
 const fsPromises = fs.promises;
 
-const path = "./zip.zip";
+const path = "./sampleData/zip.zip";
 const pathOutput = "./assembly/embed.ts";
 
 async function build() {
@@ -16,7 +16,7 @@ async function build() {
   }
 
   const decodedString = new Uint8Array(data).toString();
-  const template = `export const zip: u8[] = [${decodedString}];`;
+  const template = `// Generated ${new Date().toISOString()}\n\nexport const zip: u8[] = [${decodedString}];\n`;
 
   try {
     data = await fsPromises.writeFile(pathOutput, template);

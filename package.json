@@ -18,9 +18,9 @@
     "wrangler": "wrangler",
     "lint": "eslint",
     "ts": "tsc",
-    "build": "node build.mjs && yarn asbuild",
+    "build": "node ./src/build.mjs && yarn asbuild",
     "asinit": "asinit",
-    "test": "node test.mjs",
+    "test": "node ./src/test.mjs",
     "asbuild:untouched": "asc assembly/index.ts -b build/untouched.wasm -t build/untouched.wat --sourceMap --validate --debug",
     "asbuild:optimized": "asc assembly/index.ts -b build/optimized.wasm -t build/optimized.wat --sourceMap --validate --optimize",
     "asbuild": "yarn asbuild:untouched && yarn asbuild:optimized"

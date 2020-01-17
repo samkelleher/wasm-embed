@@ -1,9 +1,7 @@
 import * as fs from "fs";
 
 const fsPromises = fs.promises;
-const path = "./build/optimized.wasm";
-// const path = "./build/untouched.wasm";
-// const path = "./build/optimized.wat";
+const path = "../build/optimized.wasm";
 
 const getInstance = async () => {
   let data;
@@ -20,13 +18,13 @@ const getInstance = async () => {
   const imports = {
     env: {
       abort(_msg, _file, line, column) {
-        console.error("abort called at index.ts:" + line + ":" + column);
-      }
-    }
+        console.error(`abort called at index.ts:${line}:${column}`);
+      },
+    },
   };
 
   return new WebAssembly.Instance(compiled, imports).exports;
-}
+};
 
 const writeFile = async (data) => {
   const instance = await getInstance();
