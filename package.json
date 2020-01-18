@@ -10,7 +10,6 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.19.1",
-    "jest": "^24.9.0",
     "request": "^2.88.0",
     "typescript": "^3.7.4"
   },
@@ -18,8 +17,7 @@
     "lint": "eslint --ext=.js,.mjs .",
     "deploy": "node -r ./node_modules/dotenv/config.js ./src/deploy.mjs",
     "build": "node ./src/build.mjs && yarn asbuild:optimized",
-    "run": "node ./src/run.mjs",
-    "test": "jest",
+    "test": "node ./src/run.mjs",
     "asbuild:optimized": "asc assembly/index.ts -b build/embed.wasm --validate --optimize"
   },
   "eslintIgnore": [

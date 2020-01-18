@@ -1,33 +1,23 @@
 import fs from "fs";
 import getInstance from "./getInstance.mjs";
 const fsPromises = fs.promises;
-import crypto from "crypto";
+import sha1 from "./sha1.mjs";
 
-const sha1 = path => new Promise((resolve, reject) => {
-  const hash = crypto.createHash('sha1')
-  const rs = fs.createReadStream(path)
-  rs.on('error', reject)
-  rs.on('data', chunk => hash.update(chunk))
-  rs.on('end', () => resolve(hash.digest('hex')))
-})
-
-const writeFile = async () => {
+const testFile = async (original, output, extract) => {
   const instance = await getInstance("./build/embed.wasm");
-  try {
-    const zipInputHash = await sha1("./sampleData/zip.zip");
-    await fsPromises.writeFile("./testOutput/zip.zip", new Uint8Array(instance.zip));
-    const zipOutputHash = await sha1("./testOutput/zip.zip");
-    console.log(zipInputHash);
-    console.log(zipOutputHash);
-    console.log(zipInputHash === zipOutputHash);
-
-    await fsPromises.writeFile("./testOutput/kitten.jpeg", new Uint8Array(instance.kitten));
-  } catch (error) {
-    console.error(error);
-  }
+  const { bytes, size } = extract(instance);
+  const zipInputHash = await sha1(original);
+  const embeddedBytes = new Uint8Array(bytes);
+  await fsPromises.writeFile(output, embeddedBytes);
+  const zipOutputHash = await sha1(output);
+  console.log(`[${original}] Found ${embeddedBytes.byteLength} bytes embedded with ${size} embedded size.`)
+  console.log(`[${original}] Input:  ${zipInputHash}`);
+  console.log(`[${original}] Output: ${zipOutputHash}`);
+  console.log(`[${original}] ${zipInputHash === zipOutputHash ? "✅ File is exact" : "❌ File is different"}`);
 };
 
-writeFile()
+testFile("./sampleData/text.txt", "./testOutput/text.txt", (instance) => ({ bytes: instance.getText(), size: instance.getTextSize() }))
+  // .then(() => testFile("./sampleData/zip.zip", "./testOutput/zip.zip", (instance) => ({ bytes: instance.getZip(), size: instance.getZipSize() })))
   .then(() => {
     console.log("Finished");
   })
