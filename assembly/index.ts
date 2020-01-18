@@ -20,7 +20,6 @@ export function getKitten(): u8[] {
   return embed.kitten;
 }
 
-
 export const text = embed.text;
 
 export function getTextSize(): i32 {
