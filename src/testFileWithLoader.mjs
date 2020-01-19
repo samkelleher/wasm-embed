@@ -1,7 +1,8 @@
 import fs from "fs";
-import getInstance from "./getInstance.mjs";
 const fsPromises = fs.promises;
 import sha1 from "./sha1.mjs";
+import loader from "@assemblyscript/loader";
+import getModule from "./getModule.mjs";
 
 /**
  * Take a file, extract it from the embed, and then compare it to the original to ensure they are identical.
@@ -11,10 +12,11 @@ import sha1 from "./sha1.mjs";
  * @returns {Promise<void>}
  */
 export default async function testFile(original, output, extract) {
-  const instance = await getInstance("./build/embed.wasm");
+  const module = await getModule("./build/embed.wasm");
+  const instance = await loader.instantiate(module);
   const { bytes, size, raw } = extract(instance);
   const zipInputHash = await sha1(original);
-  const embeddedBytes = Uint8Array.from(bytes);
+  const embeddedBytes = instance.__getUint8Array(raw);
   await fsPromises.writeFile(output, embeddedBytes);
   const zipOutputHash = await sha1(output);
   console.log(`[${original}] Found ${embeddedBytes.byteLength} bytes embedded with ${size} embedded size.`)

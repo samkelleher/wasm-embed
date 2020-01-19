@@ -39,5 +39,8 @@
       "mjs",
       "json"
     ]
+  },
+  "dependencies": {
+    "@assemblyscript/loader": "^0.8.1"
   }
 }

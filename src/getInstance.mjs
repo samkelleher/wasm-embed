@@ -1,18 +1,7 @@
-import * as fs from "fs";
-
-const fsPromises = fs.promises;
+import getModule from "./getModule.mjs";
 
 export default async function(path) {
-  let data;
-  try {
-    data = await fsPromises.readFile(path);
-  } catch (error) {
-    console.error(`Failed to read at "${path}"`);
-    console.error(error);
-    return;
-  }
-
-  const compiled = new WebAssembly.Module(new Uint8Array(data));
+  const compiled = getModule(path);
 
   const imports = {
     env: {
