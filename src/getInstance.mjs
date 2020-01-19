@@ -1,7 +1,7 @@
 import getModule from "./getModule.mjs";
 
 export default async function(path) {
-  const compiled = getModule(path);
+  const compiled = await getModule(path);
 
   const imports = {
     env: {
