@@ -6,7 +6,8 @@ import testFileWithLoader from "./testFileWithLoader.mjs";
  */
 const run = async () => {
   await testFile("./sampleData/text.txt", "./testOutput/text.txt", (instance) => ({ raw: instance.text, size: instance.getTextSize() }));
-  // await testFileWithLoader("./sampleData/zip.zip", "./testOutput/zip.zip", (instance) => ({ raw: instance.zip, size: instance.getZipSize() }));
+  await testFile("./sampleData/zip.zip", "./testOutput/zip.zip", (instance) => ({ raw: instance.zip, size: instance.getZipSize() }));
+  await testFile("./sampleData/kitten.jpeg", "./testOutput/kitten.jpeg", (instance) => ({ raw: instance.kitten, size: instance.getKittenSize() }));
 };
 
 run()
