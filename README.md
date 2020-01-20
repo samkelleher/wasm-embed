@@ -1,4 +1,4 @@
-# ⚡️ Ultra fast response times serving static files WebAssembly Workers
+# ⚡️ Ultra fast response times serving static files with WebAssembly Workers
 > Serve static binary files from memory for fast response times.
 
 ### 📕 Background
@@ -28,6 +28,19 @@ Approach, the one taken by this repo, is to use AssemblyScript to embed assets i
 The edge node will load the WebAssembly file into it's memory, where the worker reads them for writing responses to requests.
 
 This is an ultra fast technique as the files are always in system memory for near-zero latency response times.
+
+### 🚀 Getting Started 
+
+This is a Node project using ESM, run `yarn` to install the required packages first.
+
+1. `yarn build` - This will produce `embed.wasm` in the `build` directory.
+   1. Examine the template at `./assembly/embed.template.ts`
+   2. Read the files from `./sampleData/` and embed them in `embed.ts`.
+   3. Compile the resulting TypeScript file using AssemblyScript to product `embed.wasm`.
+2. `yarn test` - This will initialize the WebAssembly module.
+   1. The embedded files are read out of the module and saved in `./testOutput`.
+   2. The SHA-1 hash is compared to the extraced file and the original.
+   3. The test is complete when the hash matches, meaning the file was successfully embedded into a WebAssembly without being damaged or modified.
 
 ### Directory Structure
 
