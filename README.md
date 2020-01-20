@@ -36,12 +36,14 @@ This is a Node project using ESM, run `yarn` to install the required packages fi
 1. `yarn build` - This will produce `embed.wasm` in the `build` directory.
    1. Examine the template at `./assembly/embed.template.ts`
    2. Read the files from `./sampleData/` and embed them in `embed.ts`.
-   3. Compile the resulting TypeScript file using AssemblyScript to product `embed.wasm`.
+   3. Compile the resulting `embed.ts` TypeScript file using AssemblyScript to product `embed.wasm`.
 2. `yarn test` - This will initialize the WebAssembly module.
    1. The embedded files are read out of the module and saved in `./testOutput`.
    2. The SHA-1 hash is compared to the extraced file and the original.
-   3. The test is complete when the hash matches, meaning the file was successfully embedded into a WebAssembly without being damaged or modified.
-3. `yarn deploy` - This will upload and publish the worker and assembly module to Cloudflare. Requires
+   3. The test is complete when the hash matches, meaning the file was successfully embedded into a WebAssembly
+   Module without being damaged or modified. If you're just interested in how to embed files into wasm, you
+   can stop here. Or continue if you want to serve these files from a worker.
+3. If you want to serve your files, `yarn deploy` - This will upload and publish the worker and assembly module to Cloudflare. Requires
 the environment variables:
     * `CF_ACCOUNT_ID` - Cloudflare Account ID
     * `SCRIPT_NAME` - The name given to your worker.
