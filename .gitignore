@@ -1,6 +1,5 @@
 node_modules
 .vscode
-*.js
 build
 .env
 testOutput
