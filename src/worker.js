@@ -47,8 +47,12 @@ async function handleRequest(request) {
     return new Response(embeddedBytes, { headers: { 'content-type': 'application/zip', 'cache-control': 'public, max-age=86400', 'content-disposition': 'attachment; filename="zip.zip"' } });
   }
 
-  const getStartedPage = `<html><head></head><body><img src="/kitten.jpeg" /><p>These two files are served from within a WebAssembly instance:</p><ul><li><a href="/kitten.jpeg">kitten.jpeg</a> - ${instance.getKittenSize()} bytes</li><li><a href="/zip.zip">zip.zip</a> - ${instance.getZipSize()} bytes</li></ul></body></html>`;
-  return new Response(getStartedPage, {
-    headers: { 'content-type': 'text/html' },
-  });
+  if (new URL(request.url).pathname.endsWith("/")) {
+    const getStartedPage = `<html><head></head><body><img src="/kitten.jpeg" /><p>These two files are served from within a WebAssembly instance:</p><ul><li><a href="/kitten.jpeg">kitten.jpeg</a> - ${instance.getKittenSize()} bytes</li><li><a href="/zip.zip">zip.zip</a> - ${instance.getZipSize()} bytes</li></ul></body></html>`;
+    return new Response(getStartedPage, {
+      headers: { 'content-type': 'text/html' },
+    });
+  }
+
+  return new Response(null, { status: 404 });
 }
