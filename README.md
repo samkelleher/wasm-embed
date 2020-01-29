@@ -50,7 +50,8 @@ the environment variables:
     * Both `CF_AUTH_EMAIL` + `CF_AUTH_KEY` to authenticate with the API using your account keys.
         * Or as an alternative, `CF_API_TOKEN` if you have a scoped API token to use instead.
 4. The files can now be accessed when making requests to the worker. Your app will enjoy fast response times
-to users across the planet. 🌍 🌎 🌏
+to users across the planet. 🌍 🌎 🌏 Visiitng the root page will display a HTML index page with links to download
+the embedded images. The files are served from the WebAssembly instance that was uploaded during deployment.
 
 ### Directory Structure
 
