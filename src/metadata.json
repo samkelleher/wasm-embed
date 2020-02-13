@@ -5,6 +5,11 @@
       "type": "wasm_module",
       "name": "embed",
       "part": "wasm"
+    },
+    {
+      "type": "kv_namespace",
+      "name": "__STATIC_CONTENT",
+      "namespace_id": "XXX"
     }
   ]
 }

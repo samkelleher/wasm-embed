@@ -37,6 +37,14 @@ async function handleRequest(request) {
     return new Response(null, { status: 503 });
   }
 
+  if (request.url.endsWith("kv/kitten.jpeg")) {
+    const fileFromKV = await __STATIC_CONTENT.get("kitten.jpeg", "arrayBuffer");
+    if (fileFromKV === null) {
+      return new Response("kitten.jpeg did not exist in the KV store", { status: 404 });
+    }
+    return new Response(fileFromKV, { headers: { 'content-type': 'image/jpg', 'cache-control': 'public, max-age=86400', 'x-from-kv': 'true' } });
+  }
+
   if (request.url.endsWith("kitten.jpeg")) {
     const embeddedBytes = getUint8Array(instance.kitten, instance.memory.buffer);
     return new Response(embeddedBytes, { headers: { 'content-type': 'image/jpg', 'cache-control': 'public, max-age=86400' } });
@@ -48,7 +56,7 @@ async function handleRequest(request) {
   }
 
   if (new URL(request.url).pathname.endsWith("/")) {
-    const getStartedPage = `<html><head></head><body><img src="/kitten.jpeg" /><p>These two files are served from within a WebAssembly instance:</p><ul><li><a href="/kitten.jpeg">kitten.jpeg</a> - ${instance.getKittenSize()} bytes</li><li><a href="/zip.zip">zip.zip</a> - ${instance.getZipSize()} bytes</li></ul></body></html>`;
+    const getStartedPage = `<html><head><title>Worker File Serving Test</title><style>html { font-family: sans-serif; } a, a:visited { color: black; font-weight: bold; }</style></head><body><p>These two files are served from within a WebAssembly instance:</p><ul><li><a href="/kitten.jpeg">kitten.jpeg</a> - ${instance.getKittenSize()} bytes</li><li><a href="/zip.zip">zip.zip</a> - ${instance.getZipSize()} bytes</li></ul><p>Image below from <strong>WebAssembly Instance</strong>:</p><img style="width: 200px; height: 139px;" alt="" src="/kitten.jpeg" /><p>Image below from <strong>KV Store</strong>:</p><img style="width: 200px; height: 139px;" alt="" src="/kv/kitten.jpeg" /></body></html>`;
     return new Response(getStartedPage, {
       headers: { 'content-type': 'text/html' },
     });

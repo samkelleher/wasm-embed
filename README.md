@@ -47,6 +47,7 @@ This is a Node project using ESM, run `yarn` to install the required packages fi
 the environment variables:
     * `CF_ACCOUNT_ID` - Cloudflare Account ID
     * `SCRIPT_NAME` - The name given to your worker.
+    * `CF_KV_ID` - The UUID of the KV namespace you have created, that has the global variable name `__STATIC_CONTENT`. This allows comparison with file stored in the namespace vs the assembly worker.
     * Both `CF_AUTH_EMAIL` + `CF_AUTH_KEY` to authenticate with the API using your account keys.
         * Or as an alternative, `CF_API_TOKEN` if you have a scoped API token to use instead.
 4. The files can now be accessed when making requests to the worker. Your app will enjoy fast response times
